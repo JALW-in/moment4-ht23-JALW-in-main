@@ -6,6 +6,8 @@ const todoList = document.getElementById("todolist"); //listan som visar uppgift
 const clearButton = document.getElementById("clearbutton"); //knapp som rensar listan
 const message = document.getElementById("message"); //elementet för meddelanden
 
+//kontrollera om det redan finns sparade uppgifter sedan tidigare när sidan laddas
+loadStorage();
 
 //lägg till event listeners som lyssnar efter handlingar
 addButton.addEventListener("click", addItem); //anropa addItem funktionen när "Lägg till" knappen klickas
@@ -63,6 +65,38 @@ function checkItemText() {
         message.innerText = ""; //ta bort meddelanden om texten är tillräckligt lång
     }
 }
+
+
+//funktion som laddar sparade uppgifter när sidan laddas  
+function loadStorage() {
+    const storedItems = localStorage.getItem("todoItems"); //hämta sparad data från webbläsaren
+  
+    if (storedItems) {
+  
+      const items = JSON.parse(storedItems); //konvertera den sparade datan till en lista av uppgifter
+  
+      items.forEach((text) => {
+  
+        //skapa ett nytt article element för varje uppgift och lägg till det i listan
+        const newItem = document.createElement("article");
+  
+        newItem.innerText = text;
+  
+        newItem.addEventListener("click", deleteItem); //lägg till en klick-händelse för att ta bort uppgiften
+  
+        todoList.appendChild(newItem);
+      });
+    }
+  }
+  
+  //funktion som sparar en uppgift i webb storage
+  function storeItem(text) {
+    const storedItems = localStorage.getItem("todoItems"); //hämta de tidigare sparade uppgifter
+    const items = storedItems ? JSON.parse(storedItems) : []; //konvertera den sparade datan till en lista av uppgifter alternativt skapa en tom lista om det inte finns någon sparad data
+    items.push(text); //lägg till den nya uppgiften i listan
+    localStorage.setItem("todoItems", JSON.stringify(items)); //spara den uppdaterade listan i webb storage
+  }
+
 
   
   //funktion som rensar listan och den sparade datan
