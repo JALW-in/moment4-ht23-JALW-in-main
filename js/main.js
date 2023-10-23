@@ -39,7 +39,7 @@ function addItem() {
 
 }
 
-//funktion som tar bort en uppgift
+//funktion som tar bort en uppgift om den klickas på
 function deleteItem(e) {
 
     const item = e.target; //hämta uppgiften som användaren klickade på
@@ -63,3 +63,12 @@ function checkItemText() {
         message.innerText = ""; //ta bort meddelanden om texten är tillräckligt lång
     }
 }
+
+  
+  //funktion som rensar listan och den sparade datan
+  function clearStorage() {
+    todoList.innerHTML = "";
+  
+    localStorage.removeItem("todoItems");
+  }
+  
