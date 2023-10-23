@@ -17,24 +17,49 @@ clearButton.addEventListener("click", clearStorage); //anropa clearStorage funkt
 function addItem() {
     //hämta text som skrivits in i textfältet
     const text = newTodoInput.value;
-  
+
     //skapa en ny article  (en article är en uppgift)
     const newItem = document.createElement("article");
-  
+
     //fyll elementet med texten
     newItem.innerText = text;
-  
+
     //lägg till en klick-händelse för att ta bort uppgiften
     newItem.addEventListener("click", deleteItem);
-  
+
     //lägg till uppgiften i listan
-    todoList.appendChild(newItem); 
-  
+    todoList.appendChild(newItem);
+
     //spara uppgiften i webb storage
     storeItem(text);
-  
+
     //rensa textfältet och eventuella meddelanden
     newTodoInput.value = "";
     message.innerText = "";
-  
-  }
+
+}
+
+//funktion som tar bort en uppgift
+function deleteItem(e) {
+
+    const item = e.target; //hämta uppgiften som användaren klickade på
+
+    todoList.removeChild(item); //ta bort uppgiften från listan
+
+    //uppdatera den sparade datan efter borttagning
+    const items = Array.from(todoList.children).map((el) => el.innerText); //hämta de uppgifter som e kvar
+
+    localStorage.setItem("todoItems", JSON.stringify(items)); //spara de uppgifter som e kvar i webb storage
+}
+
+//funktion som kontrollerar textens längd
+function checkItemText() {
+    if (newTodoInput.value.length < 5) {
+        //visa ett meddelande om texten är för kort
+        message.innerText = "Minst 5 tecken";
+    }
+
+    else {
+        message.innerText = ""; //ta bort meddelanden om texten är tillräckligt lång
+    }
+}
