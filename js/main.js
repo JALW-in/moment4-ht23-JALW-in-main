@@ -19,6 +19,10 @@ clearButton.addEventListener("click", clearStorage); //anropa clearStorage funkt
 function addItem() {
     //hämta text som skrivits in i textfältet
     const text = newTodoInput.value;
+    if (text.length < 5) {
+      message.innerText = "Texten är för kort (minst 5 tecken krävs).";
+    }
+    else {
 
     //skapa en ny article  (en article är en uppgift)
     const newItem = document.createElement("article");
@@ -34,7 +38,7 @@ function addItem() {
 
     //spara uppgiften i webb storage
     storeItem(text);
-
+  }
     //rensa textfältet och eventuella meddelanden
     newTodoInput.value = "";
     message.innerText = "";
